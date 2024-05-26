@@ -10,12 +10,12 @@ schermo = pygame.display.set_mode((larghezza, altezza))
 clock = pygame.time.Clock()
 
 # immagini   
-sfondo = pygame.image.load('game/sfondo.png')
-uccello = pygame.image.load('game/uccello.png')
-base = pygame.image.load('game/base.png')
-gameover = pygame.image.load('game/gameover.png')
-tubo_giu = pygame.image.load('game/tubogiu.png')
-tubo_su = pygame.image.load('game/tubo.png')
+sfondo = pygame.image.load('sfondo.png')
+uccello = pygame.image.load('uccello.png')
+base = pygame.image.load('base.png')
+gameover = pygame.image.load('gameover.png')
+tubo_giu = pygame.image.load('tubogiu.png')
+tubo_su = pygame.image.load('tubo.png')
 
 # Variabili
 FPS = 60
