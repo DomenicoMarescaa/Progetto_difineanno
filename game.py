@@ -4,34 +4,34 @@ import random
 # Inizializzazione di Pygame
 pygame.init()
 
-# Impostazioni dello schermo
+# schermo
 larghezza, altezza = 288, 512
 schermo = pygame.display.set_mode((larghezza, altezza))
 clock = pygame.time.Clock()
 
-# Caricamento delle immagini   
+# immagini   
 sfondo = pygame.image.load('game/sfondo.png')
 uccello = pygame.image.load('game/uccello.png')
 base = pygame.image.load('game/base.png')
 gameover = pygame.image.load('game/gameover.png')
-tubo_giu = pygame.image.load('game/tubo.png')
-tubo_su = pygame.transform.flip(tubo_giu, False, True)
+tubo_giu = pygame.image.load('game/tubogiu.png')
+tubo_su = pygame.image.load('game/tubo.png')
 
-# Variabili globali
-FPS = 50
+# Variabili
+FPS = 60
 velocita_gioco = 3
 velocita_uccello_y = 0
 basex = 0
 tubi = []
 punteggio = 0
 
-# Funzione per creare nuovi tubi
+#tubi
 def aggiungi_tubo():
     x = larghezza
     y = random.randint(-200, 0)
     tubi.append((x, y))
 
-# Funzione per disegnare gli oggetti
+# disegnare gli oggetti
 def disegna_oggetti():
     schermo.blit(sfondo, (0, 0))
     for x, y in tubi:
@@ -42,7 +42,7 @@ def disegna_oggetti():
     schermo.blit(base, (basex + 288, 400))
     mostra_punteggio()
 
-# Funzione per mostrare il punteggio
+# punteggio
 def mostra_punteggio():
     font = pygame.font.SysFont(None, 36)
     punteggio_surface = font.render(str(punteggio), True, (255, 255, 255))
@@ -58,7 +58,7 @@ def inizializza():
     punteggio = 0
     aggiungi_tubo()
 
-# Funzione per gestire la fine del gioco
+# fine del gioco
 def fine_gioco():
     schermo.blit(gameover, (50, 180))
     pygame.display.update()
@@ -86,7 +86,7 @@ while True:
     velocita_uccello_y += 1
     uccello_y += velocita_uccello_y
 
-    # Movimento dei tubi e verifica collisione
+    # verifica collisione
     for i, (x, y) in enumerate(tubi):
         x -= velocita_gioco
         tubi[i] = (x, y)
@@ -101,7 +101,7 @@ while True:
         if tubo_rettangolo.colliderect(uccello_rettangolo) or uccello_y > 380:
             fine_gioco()
 
-    # Movimento della base
+    # Movimento
     basex -= velocita_gioco
     if basex <= -288:
         basex = 0
