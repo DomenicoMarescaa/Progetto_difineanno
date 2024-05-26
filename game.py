@@ -25,13 +25,13 @@ basex = 0
 tubi = []
 punteggio = 0
 
-#tubi
+# Aggiungi tubo
 def aggiungi_tubo():
     x = larghezza
     y = random.randint(-200, 0)
     tubi.append((x, y))
 
-# disegnare gli oggetti
+# Disegnare gli oggetti
 def disegna_oggetti():
     schermo.blit(sfondo, (0, 0))
     for x, y in tubi:
@@ -42,7 +42,7 @@ def disegna_oggetti():
     schermo.blit(base, (basex + 288, 400))
     mostra_punteggio()
 
-# punteggio
+# Punteggio
 def mostra_punteggio():
     font = pygame.font.SysFont(None, 36)
     punteggio_surface = font.render(str(punteggio), True, (255, 255, 255))
@@ -54,11 +54,11 @@ def inizializza():
     uccello_y = 150
     velocita_uccello_y = 0
     basex = 0
-    tubi = []
-    punteggio = 0
+    tubi.clear()
     aggiungi_tubo()
+    punteggio = 0
 
-# fine del gioco
+# Fine del gioco
 def fine_gioco():
     schermo.blit(gameover, (50, 180))
     pygame.display.update()
@@ -86,22 +86,27 @@ while True:
     velocita_uccello_y += 1
     uccello_y += velocita_uccello_y
 
-    # verifica collisione
+    # Verifica punteggio e movimento tubi
+    nuovi_tubi = []
     for i, (x, y) in enumerate(tubi):
         x -= velocita_gioco
-        tubi[i] = (x, y)
-        if x <= -tubo_giu.get_width():
+        if x > -tubo_giu.get_width():
+            nuovi_tubi.append((x, y))
+        else:
             punteggio += 1
-            tubi.pop(0)
             aggiungi_tubo()
-
+        
         # Controllo collisione
-        tubo_rettangolo = pygame.Rect(x, y, tubo_giu.get_width(), tubo_giu.get_height())
+        tubo_giu_rettangolo = pygame.Rect(x, y, tubo_giu.get_width(), tubo_giu.get_height())
+        tubo_su_rettangolo = pygame.Rect(x, y + tubo_giu.get_height() + 150, tubo_su.get_width(), tubo_su.get_height())
         uccello_rettangolo = pygame.Rect(50, uccello_y, uccello.get_width(), uccello.get_height())
-        if tubo_rettangolo.colliderect(uccello_rettangolo) or uccello_y > 380:
+        
+        if tubo_giu_rettangolo.colliderect(uccello_rettangolo) or tubo_su_rettangolo.colliderect(uccello_rettangolo) or uccello_y > 380:
             fine_gioco()
 
-    # Movimento
+    tubi = nuovi_tubi
+
+    # Movimento base
     basex -= velocita_gioco
     if basex <= -288:
         basex = 0
